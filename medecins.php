@@ -16,11 +16,17 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     header('refresh:0');
 }
-//         if (isset($_POST['delete'])) {
-//     $id = $_POST['id'];
-//     mysqli_query($conn, "DELETE FROM medecins WHERE id = $id");
-// }
+// delete
 
+if(isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])){
+    $id = $_GET['id'];
+    $sqldelete = mysqli_query($conn, "DELETE FROM medecins WHERE medecin_id= $id");
+    if($sqldelete){
+        header('Location: medecins.php');
+        exit;
+    }
+    
+}
 
 ?>
 
@@ -107,12 +113,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                         echo "<td class=\"p-3 border\">" . $rowmedecinsResult['specialite'] . "</td>";
                         echo "<td class=\"p-3 border\">" . $rowmedecinsResult['departement_id'] . "</td>";
                         echo "<td class=\"p-3 border space-x-2\">";
-                        echo "<button class=\"px-3 py-1 bg-blue-600 text-white rounded\">
+                        echo '<a href="updat/medeciEdit.php?id='.$rowmedecinsResult['medecin_id'].'" class=\"px-3 py-1 bg-blue-600 text-white rounded\">
                                 Modifier
-                            </button>";
-                        echo "<button class=\"px-3 py-1 bg-red-600 text-white rounded\">
+                            </a>';
+                        echo '<a href="updat/medecins.php?action=delete&id='. $rowmedecinsResult['medecin_id'] .'" class=\"px-3 py-1 bg-red-600 text-white rounded\">
                                 Supprimer
-                            </button>";
+                            </a>';
+
+                              
+                        
                         echo "</td>";
                         echo "</tr>";
                     }

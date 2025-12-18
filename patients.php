@@ -16,9 +16,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         echo "<script>alert('Erreur!');</script>";
     }
     header('Refresh:0');    
-    
 
 }   
+// delete
 if(isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])){
     $id = $_GET['id'];
     $sqldelete = mysqli_query($conn, "DELETE FROM patients WHERE patient_id= $id");
@@ -131,9 +131,9 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])){
                         echo "<td class=\"p-3 border\">" . $rowpatientsResult['date_naissance'] . "</td>";
                         echo "<td class=\"p-3 border\">" . $rowpatientsResult['email'] . "</td>";
                         echo "<td class=\"p-3 border space-x-2\">";
-                        echo "<button class=\"px-3 py-1 bg-blue-600 text-white rounded\">
+                         echo '<a href="updat/patientEdit.php?id='.$rowpatientsResult['patient_id'].'" class=\"px-3 py-1 bg-blue-600 text-white rounded\">
                                 Modifier
-                            </button>";
+                            </a>';
                         echo '<a href="patients.php?action=delete&id='. $rowpatientsResult['patient_id'] .'" class=\"px-3 py-1 bg-red-600 text-white rounded\">
                                 Supprimer
                             </a>';

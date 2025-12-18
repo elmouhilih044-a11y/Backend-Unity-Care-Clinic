@@ -15,6 +15,25 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
  header('REFRESH:0');
 }
+// delete
+try{
+    if(isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])){
+    $id = $_GET['id'];
+    $sqldelete = mysqli_query($conn, "DELETE FROM departements WHERE departement_id= $id");
+    if($sqldelete){
+        header('Location: departements.php');
+        exit;
+    }
+    
+}
+}catch(Exception $e){
+    if($conn->errno == 1451){
+        echo "<script>alert('Erreur!');</script>";
+    }
+    header('Location: departements.php');
+    exit;
+}
+
 
 
 // if (isset($_POST['delete'])) {
@@ -93,12 +112,14 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                         echo "<td class=\"p-3 border\">" . $rowdepartementsResult['departement_nom'] . "</td>";
                         echo "<td class=\"p-3 border\">" . $rowdepartementsResult['location'] . "</td>";
                         echo "<td class=\"p-3 border space-x-2\">";
-                        echo "<button class=\"px-3 py-1 bg-blue-600 text-white rounded\">
+                       echo '<a href="updat/departmentEdit.php?id='. $rowdepartementsResult['departement_id'].'" class=\"px-3 py-1 bg-blue-600 text-white rounded\">
                                 Modifier
-                            </button>";
-                        echo "<button class=\"px-3 py-1 bg-red-600 text-white rounded\">
+                            </a>';
+                       
+                           echo '<a href="departements.php?action=delete&id='. $rowdepartementsResult['departement_id'] .'" class=\"px-3 py-1 bg-red-600 text-white rounded\">
                                 Supprimer
-                            </button>";
+                            </a>';
+
                         echo "</td>";
                         echo "</tr>";
                     }
