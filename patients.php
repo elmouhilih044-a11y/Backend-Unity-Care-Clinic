@@ -1,6 +1,7 @@
 
 <?php
 include "db.php";
+// Add
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $patient_nom = $_POST['patient_nom'];
     $date_naissance = $_POST['date_naissance'];
@@ -16,17 +17,19 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     }
     header('Refresh:0');    
     
-//     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-//     $id = $_POST['id'];
-//     $result=mysqli_query($conn, "DELETE FROM patients WHERE id = $id");
-//      if ($result){
-//        echo "<script>alert('Patient a était supprimer');</script>";
-//     }
-//     else{
-//         echo "<script>alert('Erreur!');</script>";
-//     }
-// }
+
 }   
+if(isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])){
+    $id = $_GET['id'];
+    $sqldelete = mysqli_query($conn, "DELETE FROM patients WHERE patient_id= $id");
+    if($sqldelete){
+        header('Location: patients.php');
+        exit;
+    }
+    
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -131,9 +134,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                         echo "<button class=\"px-3 py-1 bg-blue-600 text-white rounded\">
                                 Modifier
                             </button>";
-                        echo "<button class=\"px-3 py-1 bg-red-600 text-white rounded\">
+                        echo '<a href="patients.php?action=delete&id='. $rowpatientsResult['patient_id'] .'" class=\"px-3 py-1 bg-red-600 text-white rounded\">
                                 Supprimer
-                            </button>";
+                            </a>';
                         echo "</td>";
                         echo "</tr>";
                     }
