@@ -1,6 +1,8 @@
 <?php
 require_once "db.php";
+require_once "auth.php";
 
+requireLogin();
 
 $sqlPatientsParSexe = "SELECT sexe, COUNT(*) AS count FROM patients GROUP BY sexe";
 $resultPatientsParSexe = $conn->query($sqlPatientsParSexe);
@@ -64,6 +66,13 @@ while ($row = $resultPatientsParMois->fetch_assoc()) {
         <a href="medecins.php" class="block px-4 py-2 rounded hover:bg-blue-800">Médecins</a>
         <a href="departements.php" class="block px-4 py-2 rounded hover:bg-blue-800">Départements</a>
     </nav>
+    
+    <div class="p-4 border-t border-blue-700">
+        <p class="text-sm mb-2">Connecté: <?php echo htmlspecialchars($_SESSION['username']); ?></p>
+        <a href="logout.php" class="block px-4 py-2 rounded bg-red-600 hover:bg-red-700 text-center">
+            Déconnexion
+        </a>
+    </div>
 </aside>
 
 <main class="flex-1 p-6">
@@ -123,7 +132,7 @@ new Chart(document.getElementById('chartSexe'), {
 new Chart(document.getElementById('chartMois'), {
     type: 'line',
     data: {
-        labels: ['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Aoû','Sep','Oct','Nov','Déc'],
+        labels: ['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Août','Sep','Oct','Nov','Déc'],
         datasets: [{
             label: 'Patients',
             data: <?php echo json_encode(array_values($moisData)); ?>
